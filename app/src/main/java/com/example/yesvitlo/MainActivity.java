@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnCheck;
 
-    TextView tvResult;
+    TextView tvResult,tvStatus;
 
     String channelURl = "https://t.me/s/cek_info";
 
@@ -37,34 +37,36 @@ public class MainActivity extends AppCompatActivity {
         });
         btnCheck = findViewById(R.id.btnCheck);
         tvResult = findViewById(R.id.tvResult);
+        tvStatus = findViewById(R.id.tvStatus);
 
         btnCheck.setOnClickListener(v -> checkTelegram());
     }
 
     private void checkTelegram() {
-        tvResult.setText("Завантаження...");
+        tvStatus.setText(R.string.download);
         new Thread(() -> {
             try {
                 Document doc = Jsoup.connect(channelURl).userAgent("Mozila/5.0").timeout(15000).get();
                 Elements posts = doc.select(".tgme_widget_message");
-                String result = "Публікацій не знайдено";
+                String result = String.valueOf(R.string.no_publications_found);
                 if (!posts.isEmpty()) {
                     Element lastPost = posts.last();
                     Element textElement = lastPost.selectFirst(".tgme_widget_message_text");
                     if (textElement != null) {
                         result = textElement.text();
                     } else {
-                        result = "Останій пост не містить тексту";
+                        tvStatus.setText(String.valueOf(R.string.post));
                     }
 
                 }
                 String finalResult = result;
                 runOnUiThread(() -> {
+                    tvStatus.setText(R.string.ready);
                     tvResult.setText(finalResult);
 
                 });
             } catch (Exception e) {
-                runOnUiThread(() -> tvResult.setText("Помилка завантаження!"));
+                runOnUiThread(() -> tvStatus.setText(R.string.updload_error));
             }
         }).start();
 

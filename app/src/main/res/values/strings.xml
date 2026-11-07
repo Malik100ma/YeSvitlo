@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">YeSvitlo</string>
+    <string name="download">Download...</string>
+    <string name="no_publications_found">No publications found</string>
+    <string name="updload_error">Upload error</string>
+    <string name="post">The last post contains no text.</string>
+    <string name="ready">Ready!</string>
 </resources>

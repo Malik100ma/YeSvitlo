@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Є Світло?</string>
+    <string name="download">Завантаження...</string>
+    <string name="no_publications_found">Публікацій не знайдено</string>
+    <string name="updload_error">Помилка завантажженя</string>
+    <string name="post">Останій пост не містить тексту</string>
+    <string name="ready">Готово!</string>
+</resources>
