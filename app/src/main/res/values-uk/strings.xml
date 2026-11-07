@@ -6,4 +6,5 @@
     <string name="updload_error">Помилка завантажженя</string>
     <string name="post">Останій пост не містить тексту</string>
     <string name="ready">Готово!</string>
+    <string name="date">Дата невідома</string>
 </resources>

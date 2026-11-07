@@ -23,7 +23,7 @@
         android:id="@+id/tvResult"
         style="@style/TextView"
         android:layout_width="match_parent"
-        android:layout_height="545dp"
+        android:layout_height="535dp"
         android:text="Тут буде повідомлення"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,9 +43,19 @@
         android:id="@+id/tvStatus"
         style="@style/TextView"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:text="Натисніть на кнопку"
         app:layout_constraintBottom_toTopOf="@+id/tvResult"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        style="@style/TextView"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Тут буде час та дата повідомлення"
+        app:layout_constraintBottom_toTopOf="@+id/tvStatus"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnCheck" />
