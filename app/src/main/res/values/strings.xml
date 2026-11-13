@@ -6,4 +6,5 @@
     <string name="post">The last post contains no text.</string>
     <string name="ready">Ready!</string>
     <string name="date">Date not found</string>
+    <string name="dateno">Date not found</string>
 </resources>

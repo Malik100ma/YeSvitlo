@@ -8,55 +8,46 @@
     android:background="@drawable/bg"
     tools:context=".MainActivity">
 
+
     <Button
         android:id="@+id/btnCheck"
         style="@style/Buttons"
-        android:layout_width="337dp"
-        android:layout_height="77dp"
-        android:layout_marginTop="8dp"
-        android:text="Отримати дані з телеграму"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/tvResult"
-        style="@style/TextView"
-        android:layout_width="match_parent"
-        android:layout_height="535dp"
-        android:text="Тут буде повідомлення"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textSize="32dp"
+        android:layout_marginTop="16dp"
+        android:text="Отримати дані з Телеграм"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvStatus"
+        android:id="@+id/tvResult"
         style="@style/TextView"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="Натисніть на кнопку"
-        app:layout_constraintBottom_toTopOf="@+id/tvResult"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Натисніть на кнопку..."
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerGroups" />
 
     <TextView
         android:id="@+id/tvDate"
-        style="@style/TextView"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="Тут буде час та дата повідомлення"
-        app:layout_constraintBottom_toTopOf="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvResult" />
+
+    <Spinner
+        android:id="@+id/spinnerGroups"
+        android:layout_width="256dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnCheck" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

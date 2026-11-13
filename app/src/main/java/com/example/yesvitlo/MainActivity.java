@@ -1,7 +1,9 @@
 package com.example.yesvitlo;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -19,14 +21,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-
 public class MainActivity extends AppCompatActivity {
-
     Button btnCheck;
-
-    TextView tvResult, tvStatus, tvDate;
-
-    String channelURl = "https://t.me/s/cek_info";
+    TextView tvResult, tvDate;
+    Spinner spinnerGroups;
+    String channelURL = "https://t.me/s/cek_info";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,55 +37,70 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        spinnerGroups = findViewById(R.id.spinnerGroups);
         btnCheck = findViewById(R.id.btnCheck);
         tvResult = findViewById(R.id.tvResult);
-        tvStatus = findViewById(R.id.tvStatus);
         tvDate = findViewById(R.id.tvDate);
 
-        btnCheck.setOnClickListener(v -> checkTelegram());
+
+        String[] groups = {"Черга 1.1","Черга 1.2","Черга 2.1","Черга 2.2","Черга 3.1","Черга 3.2","Черга 4.1","Черга 4.2","Черга 5.1","Черга 5.2","Черга 6.1","Черга 6.2"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, groups);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerGroups.setAdapter(adapter);
+
+        String selectedGroup = spinnerGroups.getSelectedItem().toString();
+
+        btnCheck.setOnClickListener(v -> checkTelegram(selectedGroup));
+
+
     }
 
-    private void checkTelegram() {
-        tvStatus.setText(R.string.download);
+    private void checkTelegram(String group) {
+        tvResult.setText(String.valueOf(R.string.download));
         new Thread(() -> {
-            try {
-                Document doc = Jsoup.connect(channelURl).userAgent("Mozila/5.0").timeout(15000).get();
+            try{
+                Document doc = Jsoup.connect(channelURL).userAgent("Mozilla/5.0").timeout(15000).get();
                 Elements posts = doc.select(".tgme_widget_message");
-
                 String result = String.valueOf(R.string.no_publications_found);
-                String dateTime = String.valueOf(R.string.date);
-                if (!posts.isEmpty()) {
-                    Element lastPost = posts.last();
-                    Element timeElement = lastPost.selectFirst(".tgme_widget_message_date time");
-                    Element textElement = lastPost.selectFirst(".tgme_widget_message_text");
+                String dateTime = String.valueOf(R.string.dateno);
 
-                    if (textElement != null) {
-                        result = textElement.text();
-                    } else {
-                        tvStatus.setText(String.valueOf(R.string.post));
+                if (!posts.isEmpty()){
+                    for (int i = posts.size()-1; i>=0; i--){
+                        Element lastPost = posts.last();
+                        Element textElement = lastPost.selectFirst(".tgme_widget_message_text");
+                        if (textElement == null){
+                            continue;
+                        }
+                        String postText = textElement.text();
+                        if (postText.contains(group)){
+                            Element timeElement = lastPost.selectFirst(".tgme_widget_message_date time");
+                            if (textElement != null){
+                                result = textElement.text();
+                            } else {
+                                result = String.valueOf(R.string.post);
+                            }
+                            if (timeElement != null){
+                                dateTime = timeElement.attr("datetime");
+                                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.US);
+                                Date date = inputFormat.parse(dateTime);
+                                SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.getDefault());
+                                dateTime = outputFormat.format(date);
+                            } else {
+                                dateTime = String.valueOf(R.string.date);
+                            }
+                        }
                     }
-                    if (timeElement != null) {
-                        dateTime = timeElement.attr("dateTime");
-                        SimpleDateFormat inputFormat= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.UK);
-                        Date date = inputFormat.parse(dateTime);
-                        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.getDefault());
-                        dateTime = outputFormat.format(date);
-                    } else {
-                        dateTime = "Не вдалось отпримати дату";
-                    }
+
+
                 }
                 String finalResult = result;
-                String finalDateTime = dateTime;
-                runOnUiThread(() -> {
-                    tvStatus.setText(R.string.ready);
-                    tvResult.setText(finalResult);
-                    tvDate.setText(finalDateTime);
-                });
-            } catch (Exception e) {
-                runOnUiThread(() -> tvStatus.setText(R.string.updload_error));
-
+                String finalDate = dateTime;
+                runOnUiThread(()-> tvResult.setText(finalResult));
+                runOnUiThread(()-> tvDate.setText(finalDate));
+            } catch (Exception e){
+                runOnUiThread(() -> tvResult.setText(String.valueOf(R.string.updload_error)));
             }
         }).start();
-
     }
 }
